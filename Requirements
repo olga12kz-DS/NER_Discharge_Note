@@ -1,0 +1,43 @@
+#**Requirements for the code**
+
+!pip install render
+
+# Install compatible version of spaCy.
+!pip install spacy==3.4.4
+
+!pip install scispacy
+
+# Install the latest version of medspaCy directly from GitHub.
+!pip install git+https://github.com/medspacy/medspacy.git
+
+# Install the three pre-trained models.
+!pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.1/en_core_sci_sm-0.5.1.tar.gz
+!pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.1/en_core_sci_md-0.5.1.tar.gz
+!pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.1/en_ner_bc5cdr_md-0.5.1.tar.gz
+
+import pandas as pd
+import numpy as np
+import re # module for pattern matching and text manipulation
+import time # for comparing model performance on speed
+pd.options.display.max_colwidth = 4000
+
+import spacy #NLP library, designed for text processing, uses pre-trained models
+import scispacy #NLP Library built on spaCy, designed to process biomedical texts and pre-trained models.
+import medspacy #Specialized NLP library built on spaCy for clinical text processing
+from medspacy.ner import TargetRule #Creates rule-based named entity recognition (NER) in clinical text.
+#Core models
+#import en_core_sci_sm # small, light-weight model on ScispaCy, optimized for speed rather than accuracy
+#import en_core_sci_md # medium-size model, balanced between speed and accuracy
+#NER specific models
+import en_ner_bc5cdr_md # medium-size model on SciSpaCy, trained on BC5CDR corpus, biomedical and scientific texts, optimized for Name Entity Recognition for diseases and chemicals.
+#Tools for extracting & displaying data
+from spacy import displacy
+from spacy.matcher import Matcher # tools for rule-based pattern matching using token attributes (e.g., Part-of-Speech)
+
+#mount Google drive
+
+#path = path to your Google drive
+text_access = "text"
+
+#Read only the specified text column
+df_discharge_text = pd.read_csv(path, usecols=[text_access], compression='gzip')
